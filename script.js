@@ -29,7 +29,7 @@ function getUserPlay() {
   }
 }
 
-function whoWinsRound(picks) {
+function decideRoundWinner(picks) {
   if (picks[0] === "rock") {
     if (picks[1] === "rock") {
       return "tie";
@@ -121,7 +121,7 @@ function gameOf5() {
     // get picks for round
     picks = getPicks();
     // see who won round
-    roundWinner = whoWinsRound(picks);
+    roundWinner = decideRoundWinner(picks);
     // iterate scores according to who won round
     roundsWon = iterateScores(roundWinner, roundsWon);
     // display who won round, with what was picked by each team
