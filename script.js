@@ -29,74 +29,117 @@ function getUserPlay() {
   }
 }
 
-function whoWinsRound(computersPick, usersPick) {
-  if (computersPick === "rock") {
-    if (usersPick === "rock") {
+function whoWinsRound(picks) {
+  if (picks[0] === "rock") {
+    if (picks[1] === "rock") {
       return "tie";
     }
-    if (usersPick === "paper") {
+    if (picks[1] === "paper") {
       return "user";
     }
     return "computer";
-  } else if (computersPick === "paper") {
-    if (usersPick === "paper") {
+  } else if (picks[0] === "paper") {
+    if (picks[1] === "paper") {
       return "tie";
     }
-    if (usersPick === "scissors") {
+    if (picks[1] === "scissors") {
       return "user";
     }
     return "computer";
   } else {
-    if (usersPick === "scissors") {
+    if (picks[1] === "scissors") {
       return "tie";
     }
-    if (usersPick === "rock") {
+    if (picks[1] === "rock") {
       return "user";
     }
     return "computer";
   }
 }
 
-function decideWinner(computerScore, userScore) {
-  return computerScore > userScore
+function decideWinner(roundsWon) {
+  return roundsWon[0] > roundsWon[1]
     ? "computer"
-    : computerScore < userScore
+    : roundsWon[0] < roundsWon[1]
     ? "user"
     : "tie";
 }
+
+function displayRoundScore(round, roundsWon) {
+  console.log(
+    `round ${round}: current score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}`
+  );
+}
+
+function getPicks() {
+  return [getComputerPlay(), getUserPlay()];
+}
+
+function iterateScores(roundWinner, roundsWon) {
+  if (roundWinner === "user") {
+    roundsWon[1]++;
+    return roundsWon;
+  } else if (roundWinner === "computer") {
+    roundsWon[0]++;
+    return roundsWon;
+  } else {
+    return roundsWon;
+  }
+}
+
+function displayRoundWinner(roundWinner, picks) {
+  if (roundWinner === "tie") {
+    console.log(`tie round, both picked ${picks[0]}`);
+    return;
+  } else if (roundWinner === "user") {
+    console.log(`user wins, ${picks[1]} beats ${picks[0]}`);
+    return;
+  } else {
+    console.log(`computer wins, ${picks[0]} beats ${picks[1]}`);
+    return;
+  }
+}
+
+function isGameOver(round, roundsWon) {
+  return Math.abs(roundsWon[1] - roundsWon[0]) > 5 - round;
+}
+
+function displayEndText(gameWinner, roundsWon) {
+  console.log(
+    `The game is decided; final score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}`
+  );
+  if (gameWinner === "tie") {
+    console.log("no winner, tie game");
+  } else {
+    console.log(`The winner is ${gameWinner}`);
+  }
+  return;
+}
+
 function gameOf5() {
-  let userRoundsWon = 0;
-  let computerRoundsWon = 0;
   let roundWinner;
-  let usersPick;
-  let computersPick;
-  for (let i = 1; i <= 5; i++) {
+  // first entry is computer, second is user for the following variables
+  let roundsWon = [0, 0];
+  let picks = ["computer pick", "user pick"];
+  for (let round = 1; round <= 5; round++) {
     // display current round and score
-    console.log(
-      `round ${i}: current score: user: ${userRoundsWon}, computer: ${computerRoundsWon}`
-    );
+    displayRoundScore(round, roundsWon);
     // get picks for round
-    usersPick = getUserPlay();
-    computersPick = getComputerPlay();
-    // see who won, and then display it with what each picked, iterate scores accordingly
-    roundWinner = whoWinsRound(computersPick, usersPick);
-    if (roundWinner === "user") {
-      console.log(`user wins, ${usersPick} beats ${computersPick}`);
-      userRoundsWon++;
-    } else if (roundWinner === "computer") {
-      console.log(`computer wins, ${computersPick} beats ${usersPick}`);
-      computerRoundsWon++;
-    } else {
-      console.log(`tie round, both picked ${usersPick}`);
-    }
+    picks = getPicks();
+    // see who won round
+    roundWinner = whoWinsRound(picks);
+    // iterate scores according to who won round
+    roundsWon = iterateScores(roundWinner, roundsWon);
+    // display who won round, with what was picked by each team
+    displayRoundWinner(roundWinner, picks);
     // see if game is over.
-    if (Math.abs(userRoundsWon - computerRoundsWon) > 5 - i) {
-      console.log(
-        `The game is decided; final score: user: ${userRoundsWon}, computer: ${computerRoundsWon}`
-      );
-      winner = decideWinner(computerRoundsWon, userRoundsWon);
-      console.log(`The winner is ${winner}`);
-      return winner;
+    if (isGameOver(round, roundsWon)) {
+      // see who won game
+      gameWinner = decideWinner(roundsWon);
+      // display final score, and winner
+      displayEndText(gameWinner, roundsWon);
+      // return the game winner
+      return gameWinner;
     }
   }
 }
