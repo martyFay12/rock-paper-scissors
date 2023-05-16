@@ -28,3 +28,31 @@ function getUserPlay() {
     }
   }
 }
+
+function whoWinsRound(computersPick, usersPick) {
+  if (computersPick === "rock") {
+    if (usersPick === "rock") {
+      return "tie";
+    }
+    if (usersPick === "paper") {
+      return "user";
+    }
+    return "computer";
+  } else if (computersPick === "paper") {
+    if (usersPick === "paper") {
+      return "tie";
+    }
+    if (usersPick === "scissors") {
+      return "user";
+    }
+    return "computer";
+  } else {
+    if (usersPick === "scissors") {
+      return "tie";
+    }
+    if (usersPick === "rock") {
+      return "user";
+    }
+    return "computer";
+  }
+}
