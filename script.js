@@ -2,8 +2,7 @@
 // use prompt to allow the user to pick a play. should be case sensitive, but need to check to make sure that
 // they have picked a valid play
 // compare computers play to users play - pick winner of round, display winner
-// keep track of number of wins, since it is a best of five, only need to keep track of first 3 wins.
-// first to win 3 games wins.
+// keep track of number of round wins, first to 5 wins game.
 
 function getComputerPlay() {
   let computerPlay = Math.floor(Math.random() * 3);
@@ -111,28 +110,19 @@ function displayEndText(round, gameWinner, roundsWon) {
 
 function gameOf5() {
   let roundWinner;
-  // first entry is computer, second is user for the following variables
+  // first entry is computer, second is user for the following 2 variables
   let roundsWon = [0, 0];
   let picks = ["computer pick", "user pick"];
   let round = 1;
   while (true) {
-    // display current round and score
     displayRoundScore(round, roundsWon);
-    // get picks for round
     picks = getPicks();
-    // see who won round
     roundWinner = decideRoundWinner(picks);
-    // iterate scores according to who won round
     roundsWon = iterateScores(roundWinner, roundsWon);
-    // display who won round, with what was picked by each team
     displayRoundWinner(roundWinner, picks);
-    // see if game is over.
     if (isGameOver(roundsWon)) {
-      // see who won game
       gameWinner = decideWinner(roundsWon);
-      // display final score, and winner
       displayEndText(round, gameWinner, roundsWon);
-      // return the game winner
       return gameWinner;
     }
     round++;
