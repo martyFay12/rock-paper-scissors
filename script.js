@@ -58,11 +58,7 @@ function whoWinsRound(picks) {
 }
 
 function decideWinner(roundsWon) {
-  return roundsWon[0] > roundsWon[1]
-    ? "computer"
-    : roundsWon[0] < roundsWon[1]
-    ? "user"
-    : "tie";
+  return roundsWon[0] > roundsWon[1] ? "computer" : "user";
 }
 
 function displayRoundScore(round, roundsWon) {
@@ -100,19 +96,16 @@ function displayRoundWinner(roundWinner, picks) {
   }
 }
 
-function isGameOver(round, roundsWon) {
-  return Math.abs(roundsWon[1] - roundsWon[0]) > 5 - round;
+function isGameOver(roundsWon) {
+  return roundsWon[0] === 5 || roundsWon[1] === 5;
 }
 
-function displayEndText(gameWinner, roundsWon) {
+function displayEndText(round, gameWinner, roundsWon) {
   console.log(
-    `The game is decided; final score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}`
+    `The game is decided; after ${round} rounds: \n
+     final score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}.\n
+     The winner is ${gameWinner}`
   );
-  if (gameWinner === "tie") {
-    console.log("no winner, tie game");
-  } else {
-    console.log(`The winner is ${gameWinner}`);
-  }
   return;
 }
 
@@ -121,7 +114,8 @@ function gameOf5() {
   // first entry is computer, second is user for the following variables
   let roundsWon = [0, 0];
   let picks = ["computer pick", "user pick"];
-  for (let round = 1; round <= 5; round++) {
+  let round = 1;
+  while (true) {
     // display current round and score
     displayRoundScore(round, roundsWon);
     // get picks for round
@@ -133,13 +127,14 @@ function gameOf5() {
     // display who won round, with what was picked by each team
     displayRoundWinner(roundWinner, picks);
     // see if game is over.
-    if (isGameOver(round, roundsWon)) {
+    if (isGameOver(roundsWon)) {
       // see who won game
       gameWinner = decideWinner(roundsWon);
       // display final score, and winner
-      displayEndText(gameWinner, roundsWon);
+      displayEndText(round, gameWinner, roundsWon);
       // return the game winner
       return gameWinner;
     }
+    round++;
   }
 }
