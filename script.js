@@ -56,3 +56,47 @@ function whoWinsRound(computersPick, usersPick) {
     return "computer";
   }
 }
+
+function decideWinner(computerScore, userScore) {
+  return computerScore > userScore
+    ? "computer"
+    : computerScore < userScore
+    ? "user"
+    : "tie";
+}
+function gameOf5() {
+  let userRoundsWon = 0;
+  let computerRoundsWon = 0;
+  let roundWinner;
+  let usersPick;
+  let computersPick;
+  for (let i = 1; i <= 5; i++) {
+    // display current round and score
+    console.log(
+      `round ${i}: current score: user: ${userRoundsWon}, computer: ${computerRoundsWon}`
+    );
+    // get picks for round
+    usersPick = getUserPlay();
+    computersPick = getComputerPlay();
+    // see who won, and then display it with what each picked, iterate scores accordingly
+    roundWinner = whoWinsRound(computersPick, usersPick);
+    if (roundWinner === "user") {
+      console.log(`user wins, ${usersPick} beats ${computersPick}`);
+      userRoundsWon++;
+    } else if (roundWinner === "computer") {
+      console.log(`computer wins, ${computersPick} beats ${usersPick}`);
+      computerRoundsWon++;
+    } else {
+      console.log(`tie round, both picked ${usersPick}`);
+    }
+    // see if game is over.
+    if (Math.abs(userRoundsWon - computerRoundsWon) > 5 - i) {
+      console.log(
+        `The game is decided; final score: user: ${userRoundsWon}, computer: ${computerRoundsWon}`
+      );
+      winner = decideWinner(computerRoundsWon, userRoundsWon);
+      console.log(`The winner is ${winner}`);
+      return winner;
+    }
+  }
+}
