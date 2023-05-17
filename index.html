@@ -5,7 +5,36 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="./style.css" />
     <script src="./script.js"></script>
   </head>
-  <body></body>
+  <body>
+    <h1>Rock Paper Scissors!</h1>
+    <h3>First to five! - Select your weapon below!</h3>
+    <div id="rps-buttons-container">
+      <button id="rock">
+        <img src="./images/rock2.gif" alt="it's the Rock" />
+      </button>
+      <button id="paper">
+        <img
+          src="./images/paper2.gif"
+          alt="it's a bird, it's a plane, no! it's a paper airplane!"
+        />
+      </button>
+      <button id="scissors">
+        <img src="./images/scissors2.gif" alt="Snip snip scissors" />
+      </button>
+    </div>
+    <h2>ROUND: 1</h2>
+    <div id="score-board">
+      <div id="computer-score-container">
+        <h4>COMPUTER</h4>
+        <p id="computer-score">comp score here</p>
+      </div>
+      <div id="user-score-container">
+        <h4>YOU</h4>
+        <p id="user-score">user score here</p>
+      </div>
+    </div>
+  </body>
 </html>
