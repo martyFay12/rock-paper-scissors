@@ -6,34 +6,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rock Paper Scissors</title>
     <link rel="stylesheet" href="./style.css" />
-    <script src="./script.js"></script>
+    <script src="./script.js" defer></script>
   </head>
   <body>
     <h1>Rock Paper Scissors!</h1>
     <h3>First to five! - Select your weapon below!</h3>
     <div id="rps-buttons-container">
-      <button id="rock">
+      <button class="weapon" id="rock">
         <img src="./images/rock2.gif" alt="it's the Rock" />
       </button>
-      <button id="paper">
+      <button class="weapon" id="paper">
         <img
           src="./images/paper2.gif"
           alt="it's a bird, it's a plane, no! it's a paper airplane!"
         />
       </button>
-      <button id="scissors">
+      <button class="weapon" id="scissors">
         <img src="./images/scissors2.gif" alt="Snip snip scissors" />
       </button>
     </div>
     <h2>ROUND: 1</h2>
+    <p id="round-result"></p>
     <div id="score-board">
       <div id="computer-score-container">
         <h4>COMPUTER</h4>
-        <p id="computer-score">comp score here</p>
+        <p id="computer-score">0</p>
       </div>
       <div id="user-score-container">
         <h4>YOU</h4>
-        <p id="user-score">user score here</p>
+        <p id="user-score">0</p>
       </div>
     </div>
   </body>

@@ -85,13 +85,13 @@ function iterateScores(roundWinner, roundsWon) {
 function displayRoundWinner(roundWinner, picks) {
   if (roundWinner === "tie") {
     console.log(`tie round, both picked ${picks[0]}`);
-    return;
+    return `tie round, both picked ${picks[0]}`;
   } else if (roundWinner === "user") {
     console.log(`user wins, ${picks[1]} beats ${picks[0]}`);
-    return;
+    return `you win, ${picks[1]} beats ${picks[0]}`;
   } else {
     console.log(`computer wins, ${picks[0]} beats ${picks[1]}`);
-    return;
+    return `computer wins, ${picks[0]} beats ${picks[1]}`;
   }
 }
 
@@ -128,3 +128,25 @@ function gameOf5() {
     round++;
   }
 }
+
+function playRound(playerPick) {
+  const picks = [getComputerPlay(), playerPick];
+  const roundWinner = decideRoundWinner(picks);
+  updateRoundResultPara(roundWinner, picks);
+  // updateScores(roundWinner);
+  return roundWinner;
+  // if (roundWinner === "computer") incrementScore(computer);
+  // else incrementScore(user);
+}
+
+function updateRoundResultPara(roundWinner, picks) {
+  const p = document.querySelector("#round-result");
+  p.textContent = displayRoundWinner(roundWinner, picks);
+}
+
+buttons = document.querySelectorAll(".weapon");
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    console.log(playRound(button.id));
+  });
+});
