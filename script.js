@@ -133,7 +133,7 @@ function playRound(playerPick) {
   const picks = [getComputerPlay(), playerPick];
   const roundWinner = decideRoundWinner(picks);
   updateRoundResultPara(roundWinner, picks);
-  // updateScores(roundWinner);
+  updateScores(roundWinner);
   return roundWinner;
   // if (roundWinner === "computer") incrementScore(computer);
   // else incrementScore(user);
@@ -142,6 +142,19 @@ function playRound(playerPick) {
 function updateRoundResultPara(roundWinner, picks) {
   const p = document.querySelector("#round-result");
   p.textContent = displayRoundWinner(roundWinner, picks);
+}
+
+function updateScores(roundWinner) {
+  if (roundWinner === "tie") return;
+  let currentScore;
+  let p;
+  if (roundWinner === "computer") {
+    p = document.querySelector("#computer-score");
+  } else {
+    p = document.querySelector("#user-score");
+  }
+  currentScore = parseInt(p.textContent);
+  p.textContent = ++currentScore;
 }
 
 buttons = document.querySelectorAll(".weapon");
