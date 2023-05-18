@@ -157,9 +157,19 @@ function updateScores(roundWinner) {
   p.textContent = ++currentScore;
 }
 
+function removeText(e) {
+  console.log(e);
+  // if(box.textContent === '') return;
+  this.textContent = "";
+  return;
+}
+
 buttons = document.querySelectorAll(".weapon");
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
-    console.log(playRound(button.id));
+    playRound(button.id);
   });
 });
+
+const roundResult = document.querySelector("#round-result");
+roundResult.addEventListener("transitionend", removeText);

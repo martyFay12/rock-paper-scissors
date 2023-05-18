@@ -3,7 +3,7 @@ body {
   margin: 0;
   height: 100%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  background-color: rgb(63, 63, 63);
+  background-color: rgb(33, 33, 33);
   color: aliceblue;
 }
 
@@ -44,9 +44,30 @@ img {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: grey;
+  background-color: rgb(59, 59, 59);
   border-radius: 20px;
   border: 5px solid rgb(66, 113, 224);
   padding: 10px;
   width: 100px;
+}
+
+.static {
+  position: absolute;
+  background: white;
+}
+
+.static:hover {
+  opacity: 0;
+}
+
+button {
+  transition: all 0.07s ease-in-out;
+}
+button:hover {
+  transform: scale(1.1);
+  border: 10px solid gold;
+}
+
+#round-result {
+  font-size: 30px;
 }
