@@ -71,3 +71,10 @@ button:hover {
 #round-result {
   font-size: 30px;
 }
+
+button#new-game {
+  height: auto;
+  width: auto;
+  padding: 5px 20px;
+  margin-top: 10px;
+}

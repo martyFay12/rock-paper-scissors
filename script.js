@@ -13,21 +13,6 @@ function getComputerPlay() {
     : "scissors";
 }
 
-function getUserPlay() {
-  while (true) {
-    let userPlay = prompt("Rock, Paper or Scissors?").toLowerCase();
-    if (
-      userPlay === "rock" ||
-      userPlay === "paper" ||
-      userPlay === "scissors"
-    ) {
-      return userPlay;
-    } else {
-      console.log(`${userPlay} is not a valid play, please pick again.`);
-    }
-  }
-}
-
 function decideRoundWinner(picks) {
   if (picks[0] === "rock") {
     if (picks[1] === "rock") {
@@ -56,32 +41,6 @@ function decideRoundWinner(picks) {
   }
 }
 
-function decideWinner(roundsWon) {
-  return roundsWon[0] > roundsWon[1] ? "computer" : "user";
-}
-
-function displayRoundScore(round, roundsWon) {
-  console.log(
-    `round ${round}: current score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}`
-  );
-}
-
-function getPicks() {
-  return [getComputerPlay(), getUserPlay()];
-}
-
-function iterateScores(roundWinner, roundsWon) {
-  if (roundWinner === "user") {
-    roundsWon[1]++;
-    return roundsWon;
-  } else if (roundWinner === "computer") {
-    roundsWon[0]++;
-    return roundsWon;
-  } else {
-    return roundsWon;
-  }
-}
-
 function displayRoundWinner(roundWinner, picks) {
   if (roundWinner === "tie") {
     console.log(`tie round, both picked ${picks[0]}`);
@@ -95,48 +54,12 @@ function displayRoundWinner(roundWinner, picks) {
   }
 }
 
-function isGameOver(roundsWon) {
-  return roundsWon[0] === 5 || roundsWon[1] === 5;
-}
-
-function displayEndText(round, gameWinner, roundsWon) {
-  console.log(
-    `The game is decided; after ${round} rounds: \n
-     final score: user: ${roundsWon[1]}, computer: ${roundsWon[0]}.\n
-     The winner is ${gameWinner}`
-  );
-  return;
-}
-
-function gameOf5() {
-  let roundWinner;
-  // first entry is computer, second is user for the following 2 variables
-  let roundsWon = [0, 0];
-  let picks = ["computer pick", "user pick"];
-  let round = 1;
-  while (true) {
-    displayRoundScore(round, roundsWon);
-    picks = getPicks();
-    roundWinner = decideRoundWinner(picks);
-    roundsWon = iterateScores(roundWinner, roundsWon);
-    displayRoundWinner(roundWinner, picks);
-    if (isGameOver(roundsWon)) {
-      gameWinner = decideWinner(roundsWon);
-      displayEndText(round, gameWinner, roundsWon);
-      return gameWinner;
-    }
-    round++;
-  }
-}
-
 function playRound(playerPick) {
+  if (getMaxScore() > 4) return; // game is over as someone already has a score of 5.
   const picks = [getComputerPlay(), playerPick];
   const roundWinner = decideRoundWinner(picks);
   updateRoundResultPara(roundWinner, picks);
   updateScores(roundWinner);
-  return roundWinner;
-  // if (roundWinner === "computer") incrementScore(computer);
-  // else incrementScore(user);
 }
 
 function updateRoundResultPara(roundWinner, picks) {
@@ -155,21 +78,42 @@ function updateScores(roundWinner) {
   }
   currentScore = parseInt(p.textContent);
   p.textContent = ++currentScore;
+  if (currentScore === 5) {
+    endGame(roundWinner);
+  }
 }
 
-function removeText(e) {
-  console.log(e);
-  // if(box.textContent === '') return;
-  this.textContent = "";
-  return;
+function getMaxScore() {
+  let computerScore = parseInt(
+    document.querySelector("#computer-score").textContent
+  );
+  let userScore = parseInt(document.querySelector("#user-score").textContent);
+  return computerScore > userScore ? computerScore : userScore;
 }
 
-buttons = document.querySelectorAll(".weapon");
+function endGame(roundWinner) {
+  let text;
+  if (roundWinner === "computer") {
+    text = "Wow... you suck, you lost to the computer...";
+  } else {
+    text = "Congrats, you beat a non intelligent being...";
+  }
+  const p = document.querySelector("#round-result");
+  p.textContent = text;
+  makeRematchButton();
+}
+
+function makeRematchButton() {
+  const newGame = document.createElement("button");
+  newGame.textContent = "REMATCH";
+  newGame.setAttribute("id", "new-game");
+  document.body.appendChild(newGame);
+  newGame.addEventListener("click", () => (window.location = "./index.html"));
+}
+
+const buttons = document.querySelectorAll(".weapon");
 buttons.forEach((button) => {
   button.addEventListener("click", () => {
     playRound(button.id);
   });
 });
-
-const roundResult = document.querySelector("#round-result");
-roundResult.addEventListener("transitionend", removeText);
